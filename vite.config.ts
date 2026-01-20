@@ -4,6 +4,8 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  base: '/suspense-playground/',
+  
   server: {
     port: 3001, // Different port from main app
   },
