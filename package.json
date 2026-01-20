@@ -1,0 +1,27 @@
+{
+  "name": "suspense-playground",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Minimal reproduction environment for Vue Suspense navigation issues",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/vue-query": "^5.89.0",
+    "@vueuse/core": "^11.2.0",
+    "@vueuse/router": "^11.2.0",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "^5.9.2",
+    "unplugin-vue-router": "^0.19.2",
+    "vite": "^7.0.6",
+    "vue-tsc": "^3.1.3"
+  }
+}
