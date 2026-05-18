@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { nextTick, onErrorCaptured, watch } from 'vue'
+import { computed, nextTick, onErrorCaptured, watch } from 'vue'
 
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import DebugPanel from '@/components/DebugPanel.vue'
 import LayoutLoading from '@/components/LayoutLoading.vue'
@@ -17,8 +17,29 @@ import {
 } from '@/store/navigation'
 
 const router = useRouter()
+const route = useRoute()
 
 const suspenseHandlers = createSuspenseHandlers('App')
+
+// Breadcrumbs derived from the live route
+const breadcrumbs = computed(() => {
+  const crumbs: { label: string; to?: string }[] = [{ label: 'Home', to: '/' }]
+
+  const { projectId, workspaceId } = route.params as Record<string, string | undefined>
+
+  // vastly simplified breadcrumb logic for demo purposes, normally this would dynamically be fetched from the pages themselves
+  if (route.path.startsWith('/projects')) {
+    crumbs.push({ label: 'Projects', to: '/projects' })
+  }
+  if (projectId !== undefined) {
+    crumbs.push({ label: String(projectId), to: `/projects/${projectId}` })
+  }
+  if (workspaceId !== undefined) {
+    crumbs.push({ label: String(workspaceId) })
+  }
+
+  return crumbs
+})
 
 const { start, finish } = useLoadingIndicator()
 
@@ -69,6 +90,14 @@ onErrorCaptured((err, _instance, info) => {
       <RouterLink to="/projects">Projects</RouterLink>
     </div>
   </nav>
+
+  <div class="breadcrumbs">
+    <template v-for="(crumb, i) in breadcrumbs" :key="i">
+      <span v-if="i > 0" class="breadcrumb-sep">/</span>
+      <RouterLink v-if="crumb.to && i < breadcrumbs.length - 1" :to="crumb.to" class="breadcrumb-link">{{ crumb.label }}</RouterLink>
+      <span v-else class="breadcrumb-current">{{ crumb.label }}</span>
+    </template>
+  </div>
 
   <main>
     <router-view v-slot="{ Component }">
@@ -133,6 +162,34 @@ a:hover {
 
 .navbar-links a.router-link-active {
   color: #3b82f6;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  padding: 0.5rem 2rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.breadcrumb-sep {
+  margin: 0 0.5rem;
+  color: #d1d5db;
+}
+
+.breadcrumb-link {
+  color: #6b7280;
+}
+
+.breadcrumb-link:hover {
+  color: #111827;
+  text-decoration: none;
+}
+
+.breadcrumb-current {
+  color: #111827;
+  font-weight: 500;
 }
 
 /* Main content */

@@ -18,6 +18,7 @@ Open http://localhost:3001
 1. Navigate to a project: http://localhost:3001/projects/proj-1
 2. Click **"Back to Projects"**
 3. Watch what happens:
+   - The breadcrumbs jump to `Home / Projects` immediately, even though the old project page is still visible
    - The header shows **"Project undefined"**
    - The workspace links crash with `Missing required param "projectId"`
    - Navigation hangs indefinitely (the loading bar never finishes)
