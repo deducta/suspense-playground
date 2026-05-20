@@ -4,6 +4,10 @@ This app has a navigation bug. When navigating between certain routes that use `
 
 Your task: **investigate the Suspense/Router desync and improve the navigation experience.**
 
+## Requirements
+
+We're going for a YT style navigation experience. The user is on a fully rendered functional page, click a link, a loading bar displays, they navigate to a fully rendered page. This means: no spinner, no skeleton content, all the async data is loaded before the navigation happens. In addition to the UX requirements here, our DX goal is: not having to check for `undefined` data, not needing conditionals to account for loading state, not having to catch setup/render errors on individual pages.
+
 ## Quick Start
 
 ```bash
